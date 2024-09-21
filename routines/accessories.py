@@ -3,3 +3,6 @@ def hammer(game):
 
 def fist(game):
     print("why are you punching in space")
+    
+def pass_handling():
+    pass

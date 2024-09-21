@@ -1,7 +1,8 @@
 
 
 def button(game):
-    print("running button")
+    #print("running button")
+    game.handleSkip = True
     firstCorrectPress = "vk88"
     secondCorrectPress = "wz81"
     if game.playerAction == "push":
@@ -30,4 +31,6 @@ def button(game):
 
 def keypad(game):
     print("im keypad")
-    
+
+def pass_handling():
+    pass

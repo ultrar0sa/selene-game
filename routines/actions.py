@@ -22,7 +22,7 @@ def move(game):
             print(game.currentArea.description)
             
    #Game.currentArea
-    print("moving")
+    #print("moving")
     
 def launch(game):
     from game import Game

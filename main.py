@@ -25,6 +25,8 @@ BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : butto
 capsule = Area(["capsule", "inside"], "this is the space capsule", [], [{}])
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], [{}])
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], [{}])
+capsule.avaliable_targets = BUTTON_DICT
+dockingPort.avaliable_targets = {}
 capsule.gates = outsideCapsuleDoor.names
 dockingPort.gates = outsideCapsuleDoor.names
 outsideCapsuleDoor.gates = capsule.names + dockingPort.names
@@ -42,7 +44,7 @@ print("SELENE " + str(VERSION))
 
 print("you are ready to input your moon burn calculations that will put you in the moons orbit!")
 while not Game.gameOver:
-    game.player_input("use an accessory")
+    game.player_input()
     if Game.incorrectButtonPresses >= 2:
         print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
         print("game over...")
