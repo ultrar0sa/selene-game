@@ -3,13 +3,13 @@ now in extremely early alpha!
 
 ## "newer" features
 
+- full "moon burn" segement now avaliable
 - better parser (can recognize strings longer than a single word)
 - the ability to move
 - the inability to access capsule target objects while in space
+- flags to handle game state
 
 ## to add in future
 
 - better handling of failed commands
-- flags to handle game state
-- fix, radio actions
 - more target objects
