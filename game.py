@@ -7,25 +7,40 @@ class Game:
     correctButtonPresses = 0
     incorrectButtonPresses = 0
     gameOver = False
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "move" : routines.actions.move, "launch" : routines.actions.launch}
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch}
     VALID_TARGET_OBJECTS = {}
-    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist}
+    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox}
     AREA_DICT = {}
+    
     
     
     def __init__(self, currentArea):
         self.currentArea = currentArea
+        self.radioNotification = ""
+        self.radioContent = ""
         self.reset_input()
-      
+    
+    def add_radio_notification(self, radioNotification, radioContent):
+        self.radioNotification = radioNotification
+        self.radioContent = radioContent
+        print(radioNotification)
+    
     def reset_input(self):
         self.playerAction = ""
         self.playerAccessoryObject = ""
         self.playerTargetObject = "" 
         self.desiredArea = "" 
         self.handleSkip = False
-    
+    def check_flags(self):
+        try:
+            if self.currentArea.flags["needFixed"] == True:
+                self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
+        except KeyError:
+            pass
+        
     def player_input(self, descriptionString=""):
         while True:
+            self.check_flags()
             self.reset_input()
             if descriptionString != "":
                 print(descriptionString)
@@ -66,10 +81,7 @@ class Game:
                 #print(index + " " + str(m))
                 if m:
                     self.desiredArea = index
-                        
-                
-            
-
+                     
             #if no action taken player is reprompted
             if self.playerAction == "":
                 print("try again.")
@@ -87,3 +99,4 @@ class Game:
             if not self.handleSkip:
                 Game.VALID_PLAYER_ACTIONS[self.playerAction](self)
             break
+   

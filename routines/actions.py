@@ -9,8 +9,12 @@ def look(game):
     print("look")
     
 def radio(game):
-    print("radio")
+    from game import Game
+    if game.radioContent != "":
+        print(game.radioContent)
     
+def fix(game):
+    print("fixing")
 
 def move(game):
     from game import Game
@@ -26,7 +30,8 @@ def move(game):
     
 def launch(game):
     from game import Game
-    if Game.correctButtonPresses >= 2:
+    
+    if Game.correctButtonPresses >= 2 and Game.AREA_DICT["docking port"].flags["fixed"] == True:
         print("the engines fire successfully and you are on your way to the moon! :)")
     else:
         print("the engines misfire, blowing up your capsule in space. it's a very sad day for space travel. :(")
