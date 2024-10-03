@@ -4,7 +4,7 @@ now in extremely early alpha!
 ## "newer" features
 
 - full "moon burn" segement now avaliable
-- maps!!!!!!!!!!!!!!!! (now with json)
+- maps!!!!!!!!!!!!!!!! (now with json) (using https://github.com/ultrar0sa/mapmaker, a custom turtle image editor)
 - better parser (can recognize strings longer than a single word)
 - the ability to move
 - the inability to access capsule target objects while in space
