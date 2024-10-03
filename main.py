@@ -24,22 +24,30 @@ from routines.targets import button
 oxygenTubeFixed = False
 launchReady = False
 BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : button, "wz81" : button, "vo29" : button, "fk73" : button, "kj22" : button, "mo11" : button, "we64" : button, "lq12" : button, "ii43" : button, "js01" : button, "cf04" : button, "sz24" : button, "ez59" : button, "n57x" : button, "msy4" : button, "aym1" : button, "0frz" : button, "dyjj" : button, "jv71" : button, "4lhm" : button, "fdcx" : button, "ut9c" : button, "8rsl" : button, "ra78" : button, "jmn8" : button, "rwb5" : button, "xuu6" : button, "sgub" : button, "awpz" : button, "rrdz" : button, "mdna" : button, "wa03" : button, "ut13" : button, "zo51" : button, "ef57" : button, "uj34" : button, "su33" : button}
-capsule = Area(["capsule", "inside"], "this is the space capsule", [], {"launchReady" : launchReady})
+cape = Area(["cape", "mission control"], "this is cape canveral", [], mapPath="savedshapes/capemap.json")
+tower = Area(["tower"], "this is tower", [], mapPath="savedshapes/towermap.json")
+capsule = Area(["capsule", "inside"], "this is the space capsule", [], {"launchReady" : launchReady}, "savedshapes/capsulemap.json")
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : oxygenTubeFixed})
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [])
 capsule.avaliable_targets = BUTTON_DICT
 dockingPort.avaliable_targets = {}
-capsule.gates = outsideCapsuleDoor.names
+capsule.gates = outsideCapsuleDoor.names + cape.names + tower.names
 dockingPort.gates = outsideCapsuleDoor.names
 outsideCapsuleDoor.gates = capsule.names + dockingPort.names
+cape.gates = capsule.names + tower.names
+tower.gates = capsule.names + cape.names
+
 
 
 AREA_DICT = {"capsule" : capsule, "inside" : capsule, 
              "outside" : outsideCapsuleDoor, "spacewalk" : outsideCapsuleDoor, "space" : outsideCapsuleDoor, "capsule door" : outsideCapsuleDoor,
-             "docking port" : dockingPort, "dock" : dockingPort}
-
+             "docking port" : dockingPort, "dock" : dockingPort,
+             "cape" : cape, "mission control" : cape,
+             "tower" : tower}
+MAP_DICT = {"capsule" : "savedshapes/capsulemap.json", "cape" : "savedshapes/capemap.json", "tower" : "savedshapes/towermap.json"}
 game = Game(capsule)
 Game.AREA_DICT = AREA_DICT
+Game.MAP_DICT = MAP_DICT
 
 print(capsule.names[0])
 print("SELENE " + str(VERSION))

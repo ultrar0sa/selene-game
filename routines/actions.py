@@ -37,4 +37,11 @@ def launch(game):
         print("the engines misfire, blowing up your capsule in space. it's a very sad day for space travel. :(")
         print("game over...")
     Game.gameOver = True
-    
+
+def map(game):
+    from game import Game
+    from maps import Maps
+    from area import Area
+    mapPath = Game.MAP_DICT[game.currentArea.names[0]]
+    Game.map.load_file(mapPath)
+    print("printed map")
