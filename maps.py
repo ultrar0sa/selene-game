@@ -15,6 +15,7 @@ class Maps:
         self.artistCanvas.pack()
         self.artist = RawTurtle(self.artistCanvas) #above is to handle user manually closing map window because program crashes if map is written again if window isn't present
         self.artist.fillcolor("white")
+        self.artist.speed(0)
         self.artist.pensize(5)
         self.artist.hideturtle()
 
