@@ -13,6 +13,6 @@ now in extremely early alpha!
 
 ## to add in future
 
-- expanding game for more scenario and connecting them together
+- expanding game/actually making it
 - more target objects
 - astronaut switching
