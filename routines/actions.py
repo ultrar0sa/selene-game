@@ -42,6 +42,6 @@ def map(game):
     from game import Game
     from maps import Maps
     from area import Area
-    mapPath = Game.MAP_DICT[game.currentArea.names[0]]
-    Game.map.load_file(mapPath)
+    
+    Game.map.load_file(game.currentArea.mapPath)
     print("printed map")
