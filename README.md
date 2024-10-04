@@ -9,9 +9,10 @@ now in extremely early alpha!
 - the ability to move
 - the inability to access capsule target objects while in space
 - flags to handle game state
+- start menu
 
 ## to add in future
 
-- start menu
-- better handling of failed commands
+- expanding game for more scenario and connecting them together
 - more target objects
+- astronaut switching
