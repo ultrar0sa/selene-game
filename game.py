@@ -37,8 +37,10 @@ class Game:
         self.handleSkip = False
     def check_flags(self):
         try:
+        
             if self.currentArea.flags["needFixed"] == True:
                 self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
+            
         except KeyError:
             pass
         

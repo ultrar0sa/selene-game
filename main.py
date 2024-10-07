@@ -34,28 +34,35 @@ def start_menu():
 from routines.targets import button
 oxygenTubeFixed = False
 launchReady = False
+haveID = False
+spacesuitOn = False
 BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : button, "wz81" : button, "vo29" : button, "fk73" : button, "kj22" : button, "mo11" : button, "we64" : button, "lq12" : button, "ii43" : button, "js01" : button, "cf04" : button, "sz24" : button, "ez59" : button, "n57x" : button, "msy4" : button, "aym1" : button, "0frz" : button, "dyjj" : button, "jv71" : button, "4lhm" : button, "fdcx" : button, "ut9c" : button, "8rsl" : button, "ra78" : button, "jmn8" : button, "rwb5" : button, "xuu6" : button, "sgub" : button, "awpz" : button, "rrdz" : button, "mdna" : button, "wa03" : button, "ut13" : button, "zo51" : button, "ef57" : button, "uj34" : button, "su33" : button}
 
 #area creation
-cape = Area(["cape", "mission control"], "this is cape canveral, the starting point in your journey", [], mapPath="savedshapes/capemap.json")
+mainassembly = Area(["main room", "main assembly", "start"], "This is the main assembly room. You need to get you ID Passes before you can do anything. They are on the table at the far end of the hall.", [], mapPath="savedshapes/capemap.json")
+spacesuits = Area(["spacesuit", "suit"], "This is the spacesuit room. People are gathered to help you put on your space suit.",  [], mapPath="savedshapes/capemap.json")
+
+
 tower = Area(["tower", "pad"], "this is tower", [], mapPath="savedshapes/towermap.json")
 capsule = Area(["capsule", "inside"], "this is the space capsule", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
 capsule.avaliable_targets = BUTTON_DICT 
 dockingPort.avaliable_targets = {}
-capsule.gates = outsideCapsuleDoor.names + cape.names + tower.names
+capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
 dockingPort.gates = outsideCapsuleDoor.names
 outsideCapsuleDoor.gates = capsule.names + dockingPort.names
-cape.gates = capsule.names + tower.names
-tower.gates = capsule.names + cape.names
-
+# cape stuff
+mainassembly.gates = capsule.names + tower.names + spacesuits.names
+spacesuits.gates = mainassembly.names
+tower.gates = capsule.names + mainassembly.names
 
 
 AREA_DICT = {"capsule" : capsule, "inside" : capsule, 
              "outside" : outsideCapsuleDoor, "spacewalk" : outsideCapsuleDoor, "space" : outsideCapsuleDoor, "capsule door" : outsideCapsuleDoor,
              "docking port" : dockingPort, "dock" : dockingPort,
-             "cape" : cape, "mission control" : cape,
+             "main room" : mainassembly, "main assembly" : mainassembly, "start" : mainassembly,
+             "spacesuit" : spacesuits, "suit" : spacesuits,
              "tower" : tower}
 
 game = Game(capsule)
