@@ -7,19 +7,23 @@ class Game:
     correctButtonPresses = 0
     incorrectButtonPresses = 0
     gameOver = False
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map}
+    disableMovement = False
+    moveDisabledText = ""
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take}
     VALID_TARGET_OBJECTS = {}
-    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox}
+    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, "id" : routines.accessories.id, "suit" : routines.accessories.spacesuit}
     AREA_DICT = {}
     MAP_DICT = {}
     from maps import Maps
     map = Maps()
-
+    haveID = False
+    spacesuitOn = False
+    
     
     
     def __init__(self, currentArea):
-
         self.currentArea = currentArea
+        self.inventory = []
         self.radioNotification = ""
         self.radioContent = ""
         self.reset_input()
@@ -37,8 +41,21 @@ class Game:
         self.handleSkip = False
     def check_flags(self):
         try:
+            if self.currentArea.names[0] == "main room" and "id" not in self.inventory:
+                Game.disableMovement = True
+                Game.moveDisabledText = "You need to get your ID!"
+            elif self.currentArea.names[0] == "main room":
+                Game.disableMovement = False
+            
+            if "spacesuit" in self.currentArea.names and "spacesuit" not in self.inventory:
+                Game.disableMovement = True
+                Game.moveDisabledText = "You need to get your spacesuit on!"
+            elif "spacesuit" in self.currentArea.names:
+                Game.disableMovement = False
+
             if self.currentArea.flags["needFixed"] == True:
                 self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
+            
         except KeyError:
             pass
         
@@ -78,13 +95,15 @@ class Game:
                 p = re.compile(index)
                 m = p.search(inputString)
                 if m:  
-                    self.playerAccessoryObject = index
+                    if index not in self.currentArea.gates:
+                        self.playerAccessoryObject = index
+
             for index in Game.AREA_DICT:
                 p = re.compile(index)
                 m = p.search(inputString)
                 #print(index + " " + str(m))
                 if m:
-                    self.desiredArea = index
+                        self.desiredArea = index
                      
             #if no action taken player is reprompted
             if self.playerAction == "":

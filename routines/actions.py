@@ -4,6 +4,8 @@ def pull(game):
 def push(game):
     print("push")
     
+def take(game):
+    print("taking")
 
 def look(game):
     print("look")
@@ -20,10 +22,14 @@ def move(game):
     from game import Game
     from area import Area
     #print(game.currentArea.gates)
-    for allowedArea in game.currentArea.gates:
-        if game.desiredArea == allowedArea:
-            game.currentArea = Game.AREA_DICT[allowedArea]
-            print(game.currentArea.description)
+    if not Game.disableMovement:
+        for allowedArea in game.currentArea.gates:
+            if game.desiredArea == allowedArea:
+                game.currentArea = Game.AREA_DICT[allowedArea]
+                print(game.currentArea.description)
+    else:
+        print(Game.moveDisabledText)
+        
             
    #Game.currentArea
     #print("moving")
