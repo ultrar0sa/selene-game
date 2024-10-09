@@ -31,7 +31,7 @@ def id(game):
 
 def spacesuit(game):
     from game import Game
-    if (game.playerAction == "take" or game.playerAction == "get")  and "spacesuit" not in game.inventory:
+    if (game.playerAction == "take" or game.playerAction == "get") and "spacesuit" not in game.inventory:
         game.inventory.append("spacesuit")
     else:
         print("The computer in your suit is getting confused.")

@@ -16,8 +16,7 @@ class Game:
     MAP_DICT = {}
     from maps import Maps
     map = Maps()
-    haveID = False
-    spacesuitOn = False
+
     
     
     
