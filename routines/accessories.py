@@ -21,7 +21,21 @@ def toolbox(game):
     game.handleSkip = True
     
           
+def id(game):
+    from game import Game
+    if (game.playerAction == "take" or game.playerAction == "get") and "id" not in game.inventory:
+        game.inventory.append("id")
+    else:
+        print("You play around with your ID like an idiot.")
+    game.handleSkip = True
 
+def spacesuit(game):
+    from game import Game
+    if (game.playerAction == "take" or game.playerAction == "get")  and "spacesuit" not in game.inventory:
+        game.inventory.append("spacesuit")
+    else:
+        print("The computer in your suit is getting confused.")
+    game.handleSkip = True
     
 def pass_handling():
     pass
