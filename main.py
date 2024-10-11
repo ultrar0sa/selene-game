@@ -41,20 +41,34 @@ BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : butto
 mainassembly = Area(["main room", "main assembly", "start"], "This is the main assembly room. You need to get you ID Passes before you can do anything. They are on the table at the far end of the hall.", [], mapPath="savedshapes/capemap.json")
 spacesuits = Area(["spacesuit", "suit"], "This is the spacesuit room. People are gathered to help you put on your space suit.",  [], mapPath="savedshapes/capemap.json")
 
-
+#pad sequence
 tower = Area(["tower", "pad"], "this is tower", [], mapPath="savedshapes/towermap.json")
+outsidePad = Area(["outside", "outside pad"], "You are outside the main pad. It's time to the [elevator bay] in order to head up the tower and get in the capsule!", [], mapPath="savedshapes/towermap.json")
+elevatorBay = Area(["bay"], "You are in the elevator bay. Time to head up and move into the [capsule]!", [], mapPath="savedshapes/towermap.json")
+
+
 capsule = Area(["capsule", "inside"], "this is the space capsule", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
 capsule.avaliable_targets = BUTTON_DICT 
 dockingPort.avaliable_targets = {}
-capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
-dockingPort.gates = outsideCapsuleDoor.names
-outsideCapsuleDoor.gates = capsule.names + dockingPort.names
+# capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
+# dockingPort.gates = outsideCapsuleDoor.names
+# outsideCapsuleDoor.gates = capsule.names + dockingPort.names
+# # cape stuff
+# mainassembly.gates = capsule.names + tower.names + spacesuits.names
+# spacesuits.gates = mainassembly.names + tower.names
+# tower.gates = capsule.names + spacesuits.names
+
+capsule.gates = [outsideCapsuleDoor,mainassembly]
+dockingPort.gates = [outsideCapsuleDoor]
+outsideCapsuleDoor.gates = [capsule,dockingPort]
 # cape stuff
-mainassembly.gates = capsule.names + tower.names + spacesuits.names
-spacesuits.gates = mainassembly.names + tower.names
-tower.gates = capsule.names + spacesuits.names
+mainassembly.gates = [capsule, spacesuits]
+spacesuits.gates = [mainassembly, outsidePad]
+outsidePad.gates = [spacesuits, elevatorBay]
+#tower.gates = [capsule, spacesuits]
+
 
 
 AREA_DICT = {"capsule" : capsule, "inside" : capsule, 
@@ -62,8 +76,7 @@ AREA_DICT = {"capsule" : capsule, "inside" : capsule,
              "docking port" : dockingPort, "dock" : dockingPort,
              "main room" : mainassembly, "main assembly" : mainassembly, "start" : mainassembly,
              "spacesuit" : spacesuits, "suit" : spacesuits,
-             "tower" : tower}
-
+             "outside" : outsidePad}
 game = Game(capsule)
 Game.AREA_DICT = AREA_DICT
 

@@ -43,5 +43,17 @@
         "textXCoord": "200",
         "textYCoord": "-215",
         "textColor": "black"
+    },
+    {
+        "rectHeight": "40",
+        "rectWidth": "100",
+        "rectXCoord": "-60",
+        "rectYCoord": "160"
+    },
+    {
+        "text": "capsule",
+        "textXCoord": "-50",
+        "textYCoord": "160",
+        "textColor": "white"
     }
 ]

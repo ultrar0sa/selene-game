@@ -11,7 +11,7 @@ class Game:
     moveDisabledText = ""
     VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take}
     VALID_TARGET_OBJECTS = {}
-    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, "id" : routines.accessories.id, "suit" : routines.accessories.spacesuit}
+    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit}
     AREA_DICT = {}
     MAP_DICT = {}
     from maps import Maps
@@ -91,18 +91,32 @@ class Game:
                     #print("found target object: " + index)
             for index in Game.VALID_ACCESSORY_OBJECTS:
                 #print("parsing: " +  index)
+                noMatches = True
                 p = re.compile(index)
                 m = p.search(inputString)
                 if m:  
-                    if index not in self.currentArea.gates:
+                    for area in self.currentArea.gates:
+                        if index not in area.names:
+                            # self.playerAccessoryObject = index
+                            pass
+                        else:
+                            noMatches = False
+                    if noMatches:
                         self.playerAccessoryObject = index
-
-            for index in Game.AREA_DICT:
-                p = re.compile(index)
-                m = p.search(inputString)
-                #print(index + " " + str(m))
-                if m:
+                    
+            for index in self.currentArea.gates:
+                for areaName in index.names:
+                    p = re.compile(areaName)
+                    m = p.search(inputString)
+                    if m:
                         self.desiredArea = index
+                        break
+            # for index in Game.AREA_DICT:
+            #     p = re.compile(index)
+            #     m = p.search(inputString)
+            #     #print(index + " " + str(m))
+            #     if m:
+            #             self.desiredArea = index
                      
             #if no action taken player is reprompted
             if self.playerAction == "":

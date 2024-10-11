@@ -23,10 +23,14 @@ def move(game):
     from area import Area
     #print(game.currentArea.gates)
     if not Game.disableMovement:
-        for allowedArea in game.currentArea.gates:
-            if game.desiredArea == allowedArea:
-                game.currentArea = Game.AREA_DICT[allowedArea]
-                print(game.currentArea.description)
+        if game.desiredArea != "":
+        # for allowedArea in game.currentArea.gates:
+        #      if game.desiredArea == allowedArea:
+        #          if game.desiredArea
+        #          game.currentArea = Game.AREA_DICT[allowedArea]
+        #          print(game.currentArea.description)
+            game.currentArea = game.desiredArea
+            print(game.currentArea.description)
     else:
         print(Game.moveDisabledText)
         
