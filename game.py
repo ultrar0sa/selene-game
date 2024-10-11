@@ -12,7 +12,6 @@ class Game:
     VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take}
     VALID_TARGET_OBJECTS = {}
     VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit}
-    AREA_DICT = {}
     MAP_DICT = {}
     from maps import Maps
     map = Maps()

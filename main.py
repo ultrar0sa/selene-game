@@ -70,15 +70,8 @@ outsidePad.gates = [spacesuits, elevatorBay]
 #tower.gates = [capsule, spacesuits]
 
 
-
-AREA_DICT = {"capsule" : capsule, "inside" : capsule, 
-             "outside" : outsideCapsuleDoor, "spacewalk" : outsideCapsuleDoor, "space" : outsideCapsuleDoor, "capsule door" : outsideCapsuleDoor,
-             "docking port" : dockingPort, "dock" : dockingPort,
-             "main room" : mainassembly, "main assembly" : mainassembly, "start" : mainassembly,
-             "spacesuit" : spacesuits, "suit" : spacesuits,
-             "outside" : outsidePad}
 game = Game(capsule)
-Game.AREA_DICT = AREA_DICT
+
 
 
 
