@@ -8,6 +8,7 @@ class Game:
     incorrectButtonPresses = 0
     gameOver = False
     disableMovement = False
+    oxygenTubeFixed = False
     moveDisabledText = ""
     VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take}
     VALID_TARGET_OBJECTS = {}
@@ -16,8 +17,6 @@ class Game:
     from maps import Maps
     map = Maps()
 
-    
-    
     
     def __init__(self, currentArea):
         self.currentArea = currentArea

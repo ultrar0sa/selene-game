@@ -8,7 +8,7 @@ def take(game):
     print("taking")
 
 def look(game):
-    print("look")
+    print("You look around wildly, like a maniac.")
     
 def radio(game):
     from game import Game
@@ -40,8 +40,8 @@ def move(game):
     
 def launch(game):
     from game import Game
-    
-    if Game.correctButtonPresses >= 2 and Game.AREA_DICT["docking port"].flags["fixed"] == True:
+    print(Game.oxygenTubeFixed)
+    if Game.correctButtonPresses >= 2 and Game.oxygenTubeFixed:
         print("the engines fire successfully and you are on your way to the moon! :)")
     else:
         print("the engines misfire, blowing up your capsule in space. it's a very sad day for space travel. :(")
