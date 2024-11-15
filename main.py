@@ -37,35 +37,43 @@ launchReady = False
 
 BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : button, "wz81" : button, "vo29" : button, "fk73" : button, "kj22" : button, "mo11" : button, "we64" : button, "lq12" : button, "ii43" : button, "js01" : button, "cf04" : button, "sz24" : button, "ez59" : button, "n57x" : button, "msy4" : button, "aym1" : button, "0frz" : button, "dyjj" : button, "jv71" : button, "4lhm" : button, "fdcx" : button, "ut9c" : button, "8rsl" : button, "ra78" : button, "jmn8" : button, "rwb5" : button, "xuu6" : button, "sgub" : button, "awpz" : button, "rrdz" : button, "mdna" : button, "wa03" : button, "ut13" : button, "zo51" : button, "ef57" : button, "uj34" : button, "su33" : button}
 
-#area creation
+#start sequence
 mainassembly = Area(["main room", "main assembly", "start"], "This is the main assembly room. You need to get you ID Passes before you can do anything. They are on the table at the far end of the hall.", [], mapPath="savedshapes/capemap.json")
 spacesuits = Area(["spacesuit", "suit"], "This is the spacesuit room. People are gathered to help you put on your space suit.",  [], mapPath="savedshapes/capemap.json")
 
-
+#pad sequence
 tower = Area(["tower", "pad"], "this is tower", [], mapPath="savedshapes/towermap.json")
-capsule = Area(["capsule", "inside"], "this is the space capsule", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
-dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
+outsidePad = Area(["outside", "outside pad"], "You are outside the main pad. It's time to the [elevator bay] in order to head up the tower and get in the capsule!", [], mapPath="savedshapes/towermap.json")
+elevatorBay = Area(["bay"], "You are in the elevator bay. Time to head up and move into the [capsule]!", [], mapPath="savedshapes/towermap.json")
+
+#moon burn sequence
+capsule = Area(["capsule", "inside"], "You're inside the capsule, and everything's ready. You just need to say [launch]", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
+dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : Game.oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
+ 
 capsule.avaliable_targets = BUTTON_DICT 
 dockingPort.avaliable_targets = {}
-capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
-dockingPort.gates = outsideCapsuleDoor.names
-outsideCapsuleDoor.gates = capsule.names + dockingPort.names
+# capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
+# dockingPort.gates = outsideCapsuleDoor.names
+# outsideCapsuleDoor.gates = capsule.names + dockingPort.names
+# # cape stuff
+# mainassembly.gates = capsule.names + tower.names + spacesuits.names
+# spacesuits.gates = mainassembly.names + tower.names
+# tower.gates = capsule.names + spacesuits.names
+
+capsule.gates = [outsideCapsuleDoor,mainassembly]
+dockingPort.gates = [outsideCapsuleDoor]
+outsideCapsuleDoor.gates = [capsule,dockingPort]
 # cape stuff
-mainassembly.gates = capsule.names + tower.names + spacesuits.names
-spacesuits.gates = mainassembly.names + tower.names
-tower.gates = capsule.names + spacesuits.names
+mainassembly.gates = [capsule, spacesuits]
+spacesuits.gates = [mainassembly, outsidePad]
+outsidePad.gates = [spacesuits, elevatorBay]
+elevatorBay.gates = [capsule]
+#tower.gates = [capsule, spacesuits]
 
 
-AREA_DICT = {"capsule" : capsule, "inside" : capsule, 
-             "outside" : outsideCapsuleDoor, "spacewalk" : outsideCapsuleDoor, "space" : outsideCapsuleDoor, "capsule door" : outsideCapsuleDoor,
-             "docking port" : dockingPort, "dock" : dockingPort,
-             "main room" : mainassembly, "main assembly" : mainassembly, "start" : mainassembly,
-             "spacesuit" : spacesuits, "suit" : spacesuits,
-             "tower" : tower}
+game = Game(mainassembly) #TO ACCESS MONSTER FIGHT CHANGE "mainassembly" to "capsule!"
 
-game = Game(capsule)
-Game.AREA_DICT = AREA_DICT
 
 
 
@@ -74,11 +82,18 @@ print("SELENE " + str(VERSION))
 start_menu()
 
 #basic starting senario
-print("you are just about to your moon burn calculations that will put you in the moons orbit!")
-game.add_radio_notification("you see the \"incomming message\" light fire on your dashboard", "HOUSTON: we've detected a leak in one of the oxygen tubes out by the dock. please go out and fix it before you get ready for launch!")
-while not Game.gameOver:
-    game.player_input()
-    if Game.incorrectButtonPresses >= 2:
-        print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
-        print("game over...")
-        Game.gameOver = True
+if game.currentArea == capsule:
+    game.inventory.extend(["spacesuit", "toolbox", "id"])
+    print("you are just about to your moon burn calculations that will put you in the moons orbit!")
+    game.add_radio_notification("you see the \"incomming message\" light fire on your dashboard", "HOUSTON: we've detected a leak in one of the oxygen tubes out by the dock. please go out and fix it before you get ready for launch!")
+    while not Game.gameOver:
+        game.player_input()
+        if Game.incorrectButtonPresses >= 2:
+            print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
+            print("game over...")
+            Game.gameOver = True
+else:
+    print(mainassembly.description)
+    while not Game.gameOver:
+        game.player_input()
+

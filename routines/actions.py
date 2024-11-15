@@ -8,7 +8,7 @@ def take(game):
     print("taking")
 
 def look(game):
-    print("look")
+    print("You look around wildly, like a maniac.")
     
 def radio(game):
     from game import Game
@@ -23,10 +23,14 @@ def move(game):
     from area import Area
     #print(game.currentArea.gates)
     if not Game.disableMovement:
-        for allowedArea in game.currentArea.gates:
-            if game.desiredArea == allowedArea:
-                game.currentArea = Game.AREA_DICT[allowedArea]
-                print(game.currentArea.description)
+        if game.desiredArea != "":
+        # for allowedArea in game.currentArea.gates:
+        #      if game.desiredArea == allowedArea:
+        #          if game.desiredArea
+        #          game.currentArea = Game.AREA_DICT[allowedArea]
+        #          print(game.currentArea.description)
+            game.currentArea = game.desiredArea
+            print(game.currentArea.description)
     else:
         print(Game.moveDisabledText)
         
@@ -36,13 +40,21 @@ def move(game):
     
 def launch(game):
     from game import Game
-    
-    if Game.correctButtonPresses >= 2 and Game.AREA_DICT["docking port"].flags["fixed"] == True:
-        print("the engines fire successfully and you are on your way to the moon! :)")
-    else:
-        print("the engines misfire, blowing up your capsule in space. it's a very sad day for space travel. :(")
-        print("game over...")
-    Game.gameOver = True
+    if game.currentArea.names[0] == "capsule":
+        match game.gameState:
+            case "start":
+                game.currentArea.gates = []
+                print("liftoff!")
+                game.currentArea.description = "You are in flight and headed towards orbit."
+                game.gameState = "inFlight"
+            case _:
+                print(Game.oxygenTubeFixed)
+                if Game.correctButtonPresses >= 2 and Game.oxygenTubeFixed:
+                    print("the engines fire successfully and you are on your way to the moon! :)")
+                else:
+                    print("the engines misfire, blowing up your capsule in space. it's a very sad day for space travel. :(")
+                    print("game over...")
+                Game.gameOver = True
 
 def map(game):
     from game import Game
