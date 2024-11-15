@@ -49,6 +49,7 @@ def spacesuit(game):
         return
     if (game.playerAction == "take" or game.playerAction == "get") and "spacesuit" not in game.inventory:
         game.inventory.append("spacesuit")
+        print("you put on your space suit")
     elif "spacesuit" in game.inventory:
         print("The computer in your suit is getting confused.")
     game.handleSkip = True

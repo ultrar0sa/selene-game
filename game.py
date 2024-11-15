@@ -19,6 +19,7 @@ class Game:
 
     
     def __init__(self, currentArea):
+        self.gameState = "start"
         self.currentArea = currentArea
         self.inventory = []
         self.radioNotification = ""

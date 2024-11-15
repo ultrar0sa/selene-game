@@ -47,7 +47,7 @@ outsidePad = Area(["outside", "outside pad"], "You are outside the main pad. It'
 elevatorBay = Area(["bay"], "You are in the elevator bay. Time to head up and move into the [capsule]!", [], mapPath="savedshapes/towermap.json")
 
 #moon burn sequence
-capsule = Area(["capsule", "inside"], "this is the space capsule", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
+capsule = Area(["capsule", "inside"], "You're inside the capsule, and everything's ready. You just need to say [launch]", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : Game.oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
  
@@ -68,10 +68,11 @@ outsideCapsuleDoor.gates = [capsule,dockingPort]
 mainassembly.gates = [capsule, spacesuits]
 spacesuits.gates = [mainassembly, outsidePad]
 outsidePad.gates = [spacesuits, elevatorBay]
+elevatorBay.gates = [capsule]
 #tower.gates = [capsule, spacesuits]
 
 
-game = Game(capsule) #TO ACCESS MONSTER FIGHT CHANGE "mainassembly" to "capsule!"
+game = Game(mainassembly) #TO ACCESS MONSTER FIGHT CHANGE "mainassembly" to "capsule!"
 
 
 
