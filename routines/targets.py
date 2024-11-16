@@ -1,29 +1,49 @@
 
 
-def button(game):
+def button(game): #TODO: prob needs massive rewrite
+    from game import Game
     #print("running button")
     game.handleSkip = True
-    firstCorrectPress = "vk88"
-    secondCorrectPress = "wz81"
     if game.playerAction == "push":
-        from game import Game
-        match Game.correctButtonPresses:
-            case 0:
-                if game.playerTargetObject == firstCorrectPress:
-                    print("you pressed the first button correctly")
-                    Game.correctButtonPresses += 1
+        match game.gameState:
+            case "inFlight":
+                if game.playerTargetObject == "kj22":
+                    game.orbitButton1 = True
+                    print("Correct button pushed!")
+                elif game.playerTargetObject == "mo11":
+                    game.orbitButton2 = True
+                    print("Correct button pushed!")
                 else:
-                    print("oops")
-                    Game.incorrectButtonPresses += 1
-            case 1:
-                if game.playerTargetObject == secondCorrectPress:
-                    print("you pressed the second button correctly, you can now burn")
-                    Game.correctButtonPresses += 1
-                else:
-                    print("oops")
-                    Game.incorrectButtonPresses += 1
-            case _:
-                print("you can now burn for the moon!")
+                    print("you press the wrong button and rocket into the ground. :( \ngame over...")
+                    Game.gameOver = True
+                if game.orbitButton1 and game.orbitButton2:
+                    game.currentArea.flags["orbitCorrectionsDone"] == True
+                    game.add_radio_notification(radioContent="We can see that you've selected the correct buttons! The orbit should be coming up soon")
+                    game.gameState = "apporachingEarthOrbit"
+            case "earthMoonTransfer":
+                firstCorrectPress = "vk88"
+                secondCorrectPress = "wz81"
+                match Game.correctButtonPresses:
+                    case 0:
+                        if game.playerTargetObject == firstCorrectPress:
+                            print("you pressed the first button correctly")
+                            Game.correctButtonPresses += 1
+                        else:
+                            print("oops")
+                            Game.incorrectButtonPresses += 1
+                    case 1:
+                        if game.playerTargetObject == secondCorrectPress:
+                            game.add_radio_notification(radioContent="bad news, we've detected a leak out in one of the oxygen tubes out by the dock. please go fix it.")
+                            Game.correctButtonPresses += 1
+                        else:
+                            print("oops")
+                            Game.incorrectButtonPresses += 1
+                    case _:
+                        game.add_radio_notification(radioContent="bad news, we've detected a leak out in one of the oxygen tubes out by the dock. please go fix it.")
+                if Game.incorrectButtonPresses >= 2:
+                    print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
+                    print("game over...")
+                    Game.gameOver = True
     else:
         print("you cant " + game.playerAction + " a button!")
 

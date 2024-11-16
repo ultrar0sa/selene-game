@@ -8,10 +8,23 @@ def fist(game):
 
 def toolbox(game):
     from game import Game
+    game.handleSkip = True
     if game.playerAction == "look" and "toolbox" in game.inventory:
         print("A rather well apointed toolbox, with a deep supply of duct tape.")
-        game.handleSkip = True
         return
+    if "toolbox" not in game.inventory:
+        if (game.playerAction == "take" or game.playerAction == "get"):
+            if game.currentArea.names[0] == "capsule":
+                print("you take the toolbox")
+                game.inventory.append("toolbox")
+                return #lmao
+            else:
+                print("there is no toolbox to take")
+                return
+        else:
+            print("what toolbox?")
+            return
+        
     if game.playerAction == "fix":
         # print(game.currentArea.flags.keys())
         # print(game.currentArea.names)
@@ -21,11 +34,12 @@ def toolbox(game):
                 case "docking port":
                     Game.oxygenTubeFixed = True
                     print("the oxygen tube is fixed.")
+                    return
         else:
             print("there is nothing for the toolbox to be used on")
-    else:
-        print(f"you can't {game.playerAction} with this toolbox!")
-    game.handleSkip = True
+            return
+    print(f"you can't {game.playerAction} with this toolbox!")
+
     
           
 def id(game):

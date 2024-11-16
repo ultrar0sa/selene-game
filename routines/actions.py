@@ -8,15 +8,15 @@ def take(game):
     print("taking")
 
 def look(game):
-    print("You look around wildly, like a maniac.")
-    
+    print("looking") #i fucked up
+
 def radio(game):
     from game import Game
     if game.radioContent != "":
         print(game.radioContent)
     
 def fix(game):
-    print("fixing")
+    print("What? With no tools?")
 
 def move(game):
     from game import Game
@@ -31,10 +31,12 @@ def move(game):
         #          print(game.currentArea.description)
             game.currentArea = game.desiredArea
             print(game.currentArea.description)
+        else:
+            print("You can't move there!")
     else:
         print(Game.moveDisabledText)
         
-            
+        
    #Game.currentArea
     #print("moving")
     
@@ -43,11 +45,11 @@ def launch(game):
     if game.currentArea.names[0] == "capsule":
         match game.gameState:
             case "start":
-                game.currentArea.gates = []
                 print("liftoff!")
                 game.currentArea.description = "You are in flight and headed towards orbit."
                 game.gameState = "inFlight"
-            case _:
+                print("now the wait")
+            case "earthMoonTransfer":
                 print(Game.oxygenTubeFixed)
                 if Game.correctButtonPresses >= 2 and Game.oxygenTubeFixed:
                     print("the engines fire successfully and you are on your way to the moon! :)")
@@ -63,3 +65,27 @@ def map(game):
     
     Game.map.load_file(game.currentArea.mapPath)
     print("printed map")
+
+def info(game):
+    from game import Game
+    print(game.currentArea.description)
+
+def wait(game):
+    from game import Game
+    inFlightResponses = ["The earth grows further away.", "The sky grows more and more black through the window", "It is almost a dream."]
+
+    if game.currentArea.names[0] == "capsule":
+        match game.gameState:
+            case "inFlight":
+                if game.waitAmounts == 2 and not game.currentArea.flags["orbitCorrectionsDone"]:
+                    game.add_radio_notification(radioContent="You need to enter the correct orbit calculations into the nav computer. Press buttons kj22 and mo11")
+                    game.waitAmounts = 0
+                elif game.waitAmounts < 2:    
+                    print(inFlightResponses[game.waitAmounts])
+                    game.waitAmounts += 1
+            case "apporachingEarthOrbit":
+                print("You are moving across the earth's surface with speed. Hurricanes, Oceans, and Continents float by.")
+                game.gameState = "inEarthOrbit"
+                game.currentArea.description = "You are now in orbit"
+
+ 
