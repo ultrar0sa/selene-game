@@ -1,18 +1,16 @@
 # SELENE (A text based mission to the moon)
-now in extremely early alpha!
+now in extremely early beta!
 
 ## "newer" features
 
-- full "moon burn" segement now avaliable
-- maps!!!!!!!!!!!!!!!! (now with json) (using https://github.com/ultrar0sa/mapmaker, a custom turtle image editor)
-- better parser (can recognize strings longer than a single word)
-- the ability to move
-- the inability to access capsule target objects while in space
-- flags to handle game state
-- start menu
+- a "complete" expreience
+- content has been provided. 
 
 ## to add in future
 
-- expanding game/actually making it
-- more target objects
-- astronaut switching
+- saving and loading
+- redoing button system
+- NEW CONTENT
+- bug fixing.
+- actual playtesting and tutorializing
+- astronaut switching (i think we can safely say this is not going to happen)
