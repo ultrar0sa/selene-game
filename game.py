@@ -68,6 +68,7 @@ class Game:
                 Game.moveDisabledText = "You better use the rover to drive anywhere."
             elif "site" in self.currentArea.names:
                 Game.disableMovement = False
+            
             # if self.currentArea.flags["needFixed"] == True: # this constantly is a keyError lmao except when it isn't. fucked
             #     self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
             
@@ -82,11 +83,18 @@ class Game:
         if self.gameState == "landingTime" and self.timeBeforeLanding == 0:
             if self.currentLandingPosition == self.landingSite:
                 print("you landed on the moon safely!!!")
-                self.gameState = "landed"
+                Game.gameState = "landed"
             else:
                 print("you ran out of time and ran into the moon's surface. :(\n game over...")
-                self.gameOver = True
+                Game.gameOver = True
 
+        if "apollo" in self.currentArea.names:
+            self.gameState = "victory"
+            print("you have made it all this way.")
+            print("everything is the same, preserved in the vacuum.")
+            print("your jounrey ends here.")
+            print("you win.")
+            self.gameOver = True
 
     def vectorMeanings(self, xVector, yVector):
         if xVector == 1:

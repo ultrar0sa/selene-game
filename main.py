@@ -4,7 +4,7 @@
 import routines.targets
 from game import Game
 from area import Area
-VERSION = "Early Alpha"
+VERSION = "Early Beta"
 
 
 #basic start menu
@@ -55,8 +55,8 @@ outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "spac
 #moon crater
 landingSite = Area(["site"], "this where you landed. your [rover] has detached from your capsule and is ready to [ride]", [], mapPath="savedshapes/cratermap.json")
 craterEdge = Area(["edge"], "this is the edge of the crater you landed in. your end goal is in sight, but is still across a vast and unknown plain.", [], mapPath="savedshapes/cratermap.json")
-moonPlain = Area(["plain"], "you are in the land of unknowns now. tranquility awaits.", [], mapPath="savedshapes/moonmap.json")
-
+moonPlain = Area(["plain"], "you are in the land of unknowns now. tranquility awaits. [apollo] awaits", [], mapPath="savedshapes/moonmap.json")
+apolloEnding = Area(["apollo", "tranqulity"], "one small step", [], mapPath="savedshapes/apollo.json")
 capsule.avaliable_targets = BUTTON_DICT 
 dockingPort.avaliable_targets = {}
 # capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
@@ -77,6 +77,9 @@ outsidePad.gates = [spacesuits, elevatorBay]
 elevatorBay.gates = [capsule]
 #tower.gates = [capsule, spacesuits]
 landingSite.gates = [craterEdge]
+craterEdge.gates = [moonPlain]
+moonPlain.gates = [apolloEnding]
+
 
 
 game = Game(mainassembly) #TO ACCESS MONSTER FIGHT CHANGE "mainassembly" to "capsule!"
@@ -106,3 +109,5 @@ else:
             capsule.gates.append(landingSite)
         game.player_input()
 
+    if game.gameState == "victory":
+        print("THANKS FOR PLAYING SELENE")
