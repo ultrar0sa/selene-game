@@ -10,7 +10,7 @@ class Game:
     disableMovement = False
     oxygenTubeFixed = False
     moveDisabledText = ""
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "look" : routines.actions.look, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take}
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look}
     VALID_TARGET_OBJECTS = {}
     VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit}
     MAP_DICT = {}
@@ -20,13 +20,20 @@ class Game:
     
     def __init__(self, currentArea):
         self.gameState = "start"
+        self.waitAmounts = 0
         self.currentArea = currentArea
         self.inventory = []
         self.radioNotification = ""
         self.radioContent = ""
         self.reset_input()
+        self.handle_buttons()
+
+    def handle_buttons(self):
+        self.orbitButton1 = False
+        self.orbitButton2 = False
     
-    def add_radio_notification(self, radioNotification, radioContent):
+
+    def add_radio_notification(self, radioNotification="the radio light fires on your spacesuit", radioContent=""):
         self.radioNotification = radioNotification
         self.radioContent = radioContent
         print(radioNotification)
@@ -48,14 +55,21 @@ class Game:
             if "spacesuit" in self.currentArea.names and "spacesuit" not in self.inventory:
                 Game.disableMovement = True
                 Game.moveDisabledText = "You need to get your spacesuit on!"
-            elif "spacesuit" in self.currentArea.names:
+            elif "spacesuit" in self.currentArea.names: # this is prob bad game design
                 Game.disableMovement = False
 
-            if self.currentArea.flags["needFixed"] == True:
-                self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
+            # if self.currentArea.flags["needFixed"] == True: # this constantly is a keyError lmao except when it isn't. fucked
+            #     self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
+            
             
         except KeyError:
             pass
+
+        if self.gameState == "inEarthOrbit": 
+            self.add_radio_notification(radioContent="you are go for moving into a earth-moon transfer. push buttons vk88 and wz81, in that order.")
+            self.gameState = "earthMoonTransfer" #I FUCKING LOVE BODGING
+
+        
         
     def player_input(self, descriptionString=""):
         while True:

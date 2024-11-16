@@ -34,6 +34,7 @@ def start_menu():
 from routines.targets import button
 oxygenTubeFixed = False
 launchReady = False
+orbitCorrectionsDone = False
 
 BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : button, "wz81" : button, "vo29" : button, "fk73" : button, "kj22" : button, "mo11" : button, "we64" : button, "lq12" : button, "ii43" : button, "js01" : button, "cf04" : button, "sz24" : button, "ez59" : button, "n57x" : button, "msy4" : button, "aym1" : button, "0frz" : button, "dyjj" : button, "jv71" : button, "4lhm" : button, "fdcx" : button, "ut9c" : button, "8rsl" : button, "ra78" : button, "jmn8" : button, "rwb5" : button, "xuu6" : button, "sgub" : button, "awpz" : button, "rrdz" : button, "mdna" : button, "wa03" : button, "ut13" : button, "zo51" : button, "ef57" : button, "uj34" : button, "su33" : button}
 
@@ -47,7 +48,7 @@ outsidePad = Area(["outside", "outside pad"], "You are outside the main pad. It'
 elevatorBay = Area(["bay"], "You are in the elevator bay. Time to head up and move into the [capsule]!", [], mapPath="savedshapes/towermap.json")
 
 #moon burn sequence
-capsule = Area(["capsule", "inside"], "You're inside the capsule, and everything's ready. You just need to say [launch]", [], {"launchReady" : launchReady}, mapPath="savedshapes/capsulemap.json")
+capsule = Area(["capsule", "inside"], "You're inside the capsule, and everything's ready. You just need to say [launch]. There's a toolbox hidden in some cabinet, along with plenty of space snacks.", [], {"launchReady" : launchReady, "orbitCorrectionsDone" : orbitCorrectionsDone}, mapPath="savedshapes/capsulemap.json")
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : Game.oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
  
@@ -61,7 +62,7 @@ dockingPort.avaliable_targets = {}
 # spacesuits.gates = mainassembly.names + tower.names
 # tower.gates = capsule.names + spacesuits.names
 
-capsule.gates = [outsideCapsuleDoor,mainassembly]
+capsule.gates = [outsideCapsuleDoor]
 dockingPort.gates = [outsideCapsuleDoor]
 outsideCapsuleDoor.gates = [capsule,dockingPort]
 # cape stuff
@@ -94,6 +95,6 @@ if game.currentArea == capsule:
             Game.gameOver = True
 else:
     print(mainassembly.description)
-    while not Game.gameOver:
+    while not Game.gameOver: #bodges on top of bodges until the whole thing is made out of duck tape and hope. fuck the haters.
         game.player_input()
 
