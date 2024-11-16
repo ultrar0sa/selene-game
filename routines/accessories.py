@@ -40,7 +40,28 @@ def toolbox(game):
             return
     print(f"you can't {game.playerAction} with this toolbox!")
 
-    
+def rover(game):
+    from game import Game
+    from routines import actions
+    game.handleSkip = True
+    if game.playerAction == "look" and "rover" in game.inventory:
+        print("it's a mighty fine rover, if you don't say yourself")
+        return
+    if "rover" not in game.inventory:
+        if game.playerAction == "drive":
+            if game.currentArea.names[0] == "site":
+                print("you hop on the rover. the seat is unconfortable, but you'll deal. you are on the moon, you know.")
+                game.inventory.append("rover")
+                Game.VALID_PLAYER_ACTIONS["drive"] = actions.move #might break
+                return 
+            else:
+                print("the rover has not detached yet.")
+                return
+        else:
+            print(f"you can't {game.playerAction} with the rover!")
+            return
+        
+
           
 def id(game):
     from game import Game

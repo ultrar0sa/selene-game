@@ -53,10 +53,11 @@ def launch(game):
                 print(Game.oxygenTubeFixed)
                 if Game.correctButtonPresses >= 2 and Game.oxygenTubeFixed:
                     print("the engines fire successfully and you are on your way to the moon! :)")
+                    game.gameState = "inTransfer"
                 else:
                     print("the engines misfire, blowing up your capsule in space. it's a very sad day for space travel. :(")
                     print("game over...")
-                Game.gameOver = True
+                    Game.gameOver = True
 
 def map(game):
     from game import Game
@@ -72,20 +73,25 @@ def info(game):
 
 def wait(game):
     from game import Game
-    inFlightResponses = ["The earth grows further away.", "The sky grows more and more black through the window", "It is almost a dream."]
+    inFlightResponses = ["the earth grows further away.", "the sky grows more and more black through the window", "it is almost a dream."]
 
     if game.currentArea.names[0] == "capsule":
         match game.gameState:
             case "inFlight":
                 if game.waitAmounts == 2 and not game.currentArea.flags["orbitCorrectionsDone"]:
-                    game.add_radio_notification(radioContent="You need to enter the correct orbit calculations into the nav computer. Press buttons kj22 and mo11")
+                    game.add_radio_notification(radioContent="you need to enter the correct orbit calculations into the nav computer. press buttons kj22 and mo11")
                     game.waitAmounts = 0
                 elif game.waitAmounts < 2:    
                     print(inFlightResponses[game.waitAmounts])
                     game.waitAmounts += 1
             case "apporachingEarthOrbit":
-                print("You are moving across the earth's surface with speed. Hurricanes, Oceans, and Continents float by.")
+                print("you are moving across the earth's surface with speed. hurricanes, oceans, and continents float by.")
                 game.gameState = "inEarthOrbit"
                 game.currentArea.description = "You are now in orbit"
-
- 
+            case "inTransfer":
+                print("this is a long wait, this one. the blue ball grows weaker and weaker into the void. everyone everywhere is getting smaller.") 
+                print("you eat plenty of space snacks and listen to plenty of space music.")
+                print("you even get put on tv.")
+                print("but in the end it's time. it's time to land on the moon.")
+                print("you take manual joystick control. your going to need it.")
+                game.gameState = "landingTime"

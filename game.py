@@ -2,6 +2,7 @@ import routines.accessories
 import routines.actions
 import routines.targets
 import re
+import random
 
 class Game:
     correctButtonPresses = 0
@@ -10,9 +11,9 @@ class Game:
     disableMovement = False
     oxygenTubeFixed = False
     moveDisabledText = ""
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look}
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look}
     VALID_TARGET_OBJECTS = {}
-    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit}
+    VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit, "rover" : routines.accessories.rover}
     MAP_DICT = {}
     from maps import Maps
     map = Maps()
@@ -27,6 +28,10 @@ class Game:
         self.radioContent = ""
         self.reset_input()
         self.handle_buttons()
+        self.landingSite = [random.randint(-3,3), random.randint(-3,3)]
+        self.currentLandingPosition = [0,0]
+        self.timeBeforeLanding = 7
+
 
     def handle_buttons(self):
         self.orbitButton1 = False
@@ -58,6 +63,11 @@ class Game:
             elif "spacesuit" in self.currentArea.names: # this is prob bad game design
                 Game.disableMovement = False
 
+            if "site" in self.currentArea.names and "rover" not in self.inventory:
+                Game.disableMovement = True
+                Game.moveDisabledText = "You better use the rover to drive anywhere."
+            elif "site" in self.currentArea.names:
+                Game.disableMovement = False
             # if self.currentArea.flags["needFixed"] == True: # this constantly is a keyError lmao except when it isn't. fucked
             #     self.add_radio_notification("the radio light fires on your spacesuit", "ok, now you are ready to start entering the proper details. the first button is vk88 and the second is wz81. then you should be ready to fire engines")
             
@@ -68,17 +78,80 @@ class Game:
         if self.gameState == "inEarthOrbit": 
             self.add_radio_notification(radioContent="you are go for moving into a earth-moon transfer. push buttons vk88 and wz81, in that order.")
             self.gameState = "earthMoonTransfer" #I FUCKING LOVE BODGING
+        
+        if self.gameState == "landingTime" and self.timeBeforeLanding == 0:
+            if self.currentLandingPosition == self.landingSite:
+                print("you landed on the moon safely!!!")
+                self.gameState = "landed"
+            else:
+                print("you ran out of time and ran into the moon's surface. :(\n game over...")
+                self.gameOver = True
 
+
+    def vectorMeanings(self, xVector, yVector):
+        if xVector == 1:
+            print("a touch too far left")
+        elif xVector > 1:
+            print("way too far left")
+        elif xVector == -1:
+            print("a touch too far right")
+        elif xVector < -1:
+            print("way too far right")
+        elif xVector == 0:
+            print("good on x-axis")
+
+        if yVector == 1:
+            print("a touch below where we want it")
+        elif yVector > 1:
+            print("way too far down")
+        elif yVector == -1:
+            print("a touch above where we want it")
+        elif yVector < -1:
+            print("way too far up")
+        elif yVector == 0:
+            print("good on y-axis")
+
+        if xVector == 0 and yVector == 0:
+            print("you're good! just wait")
+    
+    def joystickControl(self, inputString):
+        match inputString:
+            case "left":
+                self.currentLandingPosition[0] -= 1
+            case "right":
+                self.currentLandingPosition[0] += 1
+            case "up":
+                self.currentLandingPosition[1] += 1
+            case "down":
+                self.currentLandingPosition[1] -= 1
+            case "wait":
+                pass
+            case _:
+                print("you wiggle around the joystick wildly. you move in a random direction")
+                self.currentLandingPosition[0] += random.randint(-1, 1)
+                self.currentLandingPosition[1] += random.randint(-1, 1)
+            
+        xVector = self.landingSite[0] - self.currentLandingPosition[0] # i know this isn't techincally a vector but deal if it. fuck it we ball. pos values mean too left. neg values mean too right
+        yVector = self.landingSite[1] - self.currentLandingPosition[1] # neg values mean too high up. pos values mean too far down
+        self.vectorMeanings(xVector, yVector)
+        
+        self.timeBeforeLanding -= 1
+        print("time before landing: " + str(self.timeBeforeLanding))
         
         
     def player_input(self, descriptionString=""):
         while True:
             self.check_flags()
+            if self.gameOver:
+                return
             self.reset_input()
             if descriptionString != "":
                 print(descriptionString)
             #cleaning up the input string
             inputString = input("enter command: ")
+            if self.gameState == "landingTime":
+                self.joystickControl(inputString)
+                return
             inputString = inputString.lower()
             inputList = inputString.split()
             if len(inputList) == 0:

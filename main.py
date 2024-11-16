@@ -52,6 +52,11 @@ capsule = Area(["capsule", "inside"], "You're inside the capsule, and everything
 dockingPort = Area(["docking port", "dock"], "you are next to the [docking port], out in space. the broken oxygen tube is right in front of you.", [], {"fixed" : Game.oxygenTubeFixed}, mapPath="savedshapes/capsulemap.json")
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
  
+#moon crater
+landingSite = Area(["site"], "this where you landed. your [rover] has detached from your capsule and is ready to [ride]", [], mapPath="savedshapes/cratermap.json")
+craterEdge = Area(["edge"], "this is the edge of the crater you landed in. your end goal is in sight, but is still across a vast and unknown plain.", [], mapPath="savedshapes/cratermap.json")
+moonPlain = Area(["plain"], "you are in the land of unknowns now. tranquility awaits.", [], mapPath="savedshapes/moonmap.json")
+
 capsule.avaliable_targets = BUTTON_DICT 
 dockingPort.avaliable_targets = {}
 # capsule.gates = outsideCapsuleDoor.names + mainassembly.names + tower.names
@@ -71,6 +76,7 @@ spacesuits.gates = [mainassembly, outsidePad]
 outsidePad.gates = [spacesuits, elevatorBay]
 elevatorBay.gates = [capsule]
 #tower.gates = [capsule, spacesuits]
+landingSite.gates = [craterEdge]
 
 
 game = Game(mainassembly) #TO ACCESS MONSTER FIGHT CHANGE "mainassembly" to "capsule!"
@@ -96,5 +102,7 @@ if game.currentArea == capsule:
 else:
     print(mainassembly.description)
     while not Game.gameOver: #bodges on top of bodges until the whole thing is made out of duck tape and hope. fuck the haters.
+        if game.gameState == "landed" and landingSite not in capsule.gates:
+            capsule.gates.append(landingSite)
         game.player_input()
 
