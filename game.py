@@ -10,13 +10,18 @@ class Game:
     gameOver = False
     disableMovement = False
     oxygenTubeFixed = False
+    radioNotifPresentButNotAnswered = False
     moveDisabledText = ""
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look}
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look, "save" : routines.actions.save, "load" : routines.actions.load, "exit" : routines.actions.exit}
     VALID_TARGET_OBJECTS = {}
     VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit, "rover" : routines.accessories.rover}
     MAP_DICT = {}
+    AREA_LIST = []
     from maps import Maps
     map = Maps()
+
+
+    
 
     
     def __init__(self, currentArea):
@@ -42,6 +47,7 @@ class Game:
         self.radioNotification = radioNotification
         self.radioContent = radioContent
         print(radioNotification)
+        Game.radioNotifPresentButNotAnswered = True
     
     def reset_input(self):
         self.playerAction = ""
@@ -83,7 +89,7 @@ class Game:
         if self.gameState == "landingTime" and self.timeBeforeLanding == 0:
             if self.currentLandingPosition == self.landingSite:
                 print("you landed on the moon safely!!!")
-                Game.gameState = "landed"
+                self.gameState = "landed"
             else:
                 print("you ran out of time and ran into the moon's surface. :(\n game over...")
                 Game.gameOver = True
@@ -94,7 +100,7 @@ class Game:
             print("everything is the same, preserved in the vacuum.")
             print("your jounrey ends here.")
             print("you win.")
-            self.gameOver = True
+            Game.gameOver = True
 
     def vectorMeanings(self, xVector, yVector):
         if xVector == 1:
@@ -150,7 +156,7 @@ class Game:
     def player_input(self, descriptionString=""):
         while True:
             self.check_flags()
-            if self.gameOver:
+            if Game.gameOver:
                 return
             self.reset_input()
             if descriptionString != "":

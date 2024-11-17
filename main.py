@@ -1,6 +1,7 @@
 # i am making this out of spite
 #import routines.accessories
 #import routines.actions
+import routines.actions
 import routines.targets
 from game import Game
 from area import Area
@@ -8,23 +9,26 @@ VERSION = "Early Beta"
 
 
 #basic start menu
-def start_menu():
-    print("1.about\n2.instructions\n3.play game")
+def start_menu(game):
+    print("1.about\n2.instructions\n3.play game\n4.load game")
     match input("input: "):
         case "1":
             print("SELENE is a moon mission over text. \nIt is created by Vicky Yang, Jade Lukken, and David Foster for CS 1612 at the University of Minnesota Duluth")
-            start_menu()
+            start_menu(game)
         case "2":
             print("When prompted, type commands into the console and press ENTER. \nThese commands include:\nmove {location name}\npush {button name}\nand fix {object}")
             print("The \"map\" command draws a map in the turtle window. NOTE: Map window cannot be closed by player using window close button. \nTo exit the game, player must hit ctrl-c and then enter.")
             print("Try and experiment with potential commands to see if they work in potential situtations!")
             print("Paper and pencil is recommended to have on hand.")
-            start_menu()
+            start_menu(game)
         case "3":
+            return
+        case "4":
+            routines.actions.load(game)
             return
         case _:
             print("input a correct input")
-            start_menu()
+            start_menu(game)
 
 
 
@@ -80,16 +84,16 @@ landingSite.gates = [craterEdge]
 craterEdge.gates = [moonPlain]
 moonPlain.gates = [apolloEnding]
 
-
+AREA_LIST = [mainassembly, spacesuits, tower, outsidePad, elevatorBay, capsule, outsideCapsuleDoor, dockingPort, landingSite, craterEdge, moonPlain, apolloEnding]
 
 game = Game(mainassembly) #TO ACCESS MONSTER FIGHT CHANGE "mainassembly" to "capsule!"
 
-
+Game.AREA_LIST = AREA_LIST
 
 
 print("SELENE " + str(VERSION))
 
-start_menu()
+start_menu(game)
 
 #basic starting senario
 if game.currentArea == capsule:

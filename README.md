@@ -4,11 +4,11 @@ now in extremely early beta!
 ## "newer" features
 
 - a "complete" expreience
-- content has been provided. 
+- content has been provided.
+- save/loading
 
 ## to add in future
 
-- saving and loading
 - redoing button system
 - NEW CONTENT
 - bug fixing.

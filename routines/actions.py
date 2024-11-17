@@ -1,3 +1,5 @@
+import json
+
 def pull(game):
     print("pull")
 
@@ -14,6 +16,7 @@ def radio(game):
     from game import Game
     if game.radioContent != "":
         print(game.radioContent)
+    Game.radioNotifPresentButNotAnswered = False
     
 def fix(game):
     print("What? With no tools?")
@@ -95,3 +98,57 @@ def wait(game):
                 print("but in the end it's time. it's time to land on the moon.")
                 print("you take manual joystick control. your going to need it.")
                 game.gameState = "landingTime"
+
+
+
+def save(game):
+    from game import Game
+    gameDict = {"gameState" : game.gameState,
+                "currentArea" : game.currentArea.names[0],
+                "inventory" : game.inventory,
+                "movementDisabled" : Game.disableMovement,
+                "moveDisabledText" : Game.moveDisabledText,
+                "oxygenTubeFixed" : Game.oxygenTubeFixed,
+                "waitAmounts" : game.waitAmounts,
+                "landingSite" : game.landingSite,
+                "orbitButton1" : game.orbitButton1,
+                "orbitButton2" : game.orbitButton2,
+                "correctButtonPresses" : Game.correctButtonPresses,
+                "incorrectButtonPresses" : Game.incorrectButtonPresses,
+                "radioNotifPresentButNotAnswered" : Game.radioNotifPresentButNotAnswered,
+                "radioNotification" : game.radioNotification,
+                "radioContent" : game.radioContent}
+    
+
+    with open("save.json", mode="w") as file:
+        file.write(json.dumps(gameDict, indent=4))
+        file.close()
+    
+def load(game):
+    from game import Game
+    from area import Area
+    with open("save.json", mode="r") as file:
+        gameDict = json.load(file)
+        game.gameState = gameDict["gameState"]
+        for area in Game.AREA_LIST:
+            if area.names[0] == gameDict["currentArea"]:
+                game.currentArea = area
+                break
+        game.inventory = gameDict["inventory"]
+        Game.disableMovement = gameDict["movementDisabled"]
+        Game.moveDisabledText = gameDict["moveDisabledText"]
+        Game.oxygenTubeFixed = gameDict["oxygenTubeFixed"]
+        game.waitAmounts = gameDict["waitAmounts"]
+        game.landingSite = gameDict["landingSite"]
+        game.orbitButton1 = gameDict["orbitButton1"]
+        game.orbitButton2 = gameDict["orbitButton2"]
+        Game.correctButtonPresses = gameDict["correctButtonPresses"]
+        Game.incorrectButtonPresses = gameDict["incorrectButtonPresses"]
+        game.radioNotification = gameDict["radioNotification"]
+        game.radioContent = gameDict["radioContent"]
+        if gameDict["radioNotifPresentButNotAnswered"]:
+            radio(game)
+
+def exit(game):
+    from game import Game
+    Game.gameOver = True
