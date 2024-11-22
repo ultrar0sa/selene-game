@@ -82,7 +82,7 @@ def wait(game):
         match game.gameState:
             case "inFlight":
                 if game.waitAmounts == 2 and not game.currentArea.flags["orbitCorrectionsDone"]:
-                    game.add_radio_notification(radioContent="you need to enter the correct orbit calculations into the nav computer. press buttons kj22 and mo11")
+                    game.add_radio_notification(radioContent="you need to enter the correct orbit calculations into the nav computer. press buttons 1A and 3C")
                     game.waitAmounts = 0
                 elif game.waitAmounts < 2:    
                     print(inFlightResponses[game.waitAmounts])

@@ -12,7 +12,7 @@ class Game:
     oxygenTubeFixed = False
     radioNotifPresentButNotAnswered = False
     moveDisabledText = ""
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look, "save" : routines.actions.save, "load" : routines.actions.load, "exit" : routines.actions.exit}
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "press" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look, "save" : routines.actions.save, "load" : routines.actions.load, "exit" : routines.actions.exit}
     VALID_TARGET_OBJECTS = {}
     VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit, "rover" : routines.accessories.rover}
     MAP_DICT = {}
@@ -83,7 +83,7 @@ class Game:
             pass
 
         if self.gameState == "inEarthOrbit": 
-            self.add_radio_notification(radioContent="you are go for moving into a earth-moon transfer. push buttons vk88 and wz81, in that order.")
+            self.add_radio_notification(radioContent="you are go for moving into a earth-moon transfer. push buttons 2B and 3D, in that order.")
             self.gameState = "earthMoonTransfer" #I FUCKING LOVE BODGING
         
         if self.gameState == "landingTime" and self.timeBeforeLanding == 0:

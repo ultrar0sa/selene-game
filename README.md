@@ -6,10 +6,11 @@ now in extremely early beta!
 - a "complete" expreience
 - content has been provided.
 - save/loading
+- NEW AND IMPROVED BUTTONS
 
 ## to add in future
 
-- redoing button system
+
 - NEW CONTENT
 - bug fixing.
 - actual playtesting and tutorializing

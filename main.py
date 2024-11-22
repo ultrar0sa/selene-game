@@ -40,8 +40,8 @@ oxygenTubeFixed = False
 launchReady = False
 orbitCorrectionsDone = False
 
-BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : button, "wz81" : button, "vo29" : button, "fk73" : button, "kj22" : button, "mo11" : button, "we64" : button, "lq12" : button, "ii43" : button, "js01" : button, "cf04" : button, "sz24" : button, "ez59" : button, "n57x" : button, "msy4" : button, "aym1" : button, "0frz" : button, "dyjj" : button, "jv71" : button, "4lhm" : button, "fdcx" : button, "ut9c" : button, "8rsl" : button, "ra78" : button, "jmn8" : button, "rwb5" : button, "xuu6" : button, "sgub" : button, "awpz" : button, "rrdz" : button, "mdna" : button, "wa03" : button, "ut13" : button, "zo51" : button, "ef57" : button, "uj34" : button, "su33" : button}
-
+#BUTTON_DICT = {"jdry" : button, "uo13" : button, "vk88" : button, "jn34" : button, "wz81" : button, "vo29" : button, "fk73" : button, "kj22" : button, "mo11" : button, "we64" : button, "lq12" : button, "ii43" : button, "js01" : button, "cf04" : button, "sz24" : button, "ez59" : button, "n57x" : button, "msy4" : button, "aym1" : button, "0frz" : button, "dyjj" : button, "jv71" : button, "4lhm" : button, "fdcx" : button, "ut9c" : button, "8rsl" : button, "ra78" : button, "jmn8" : button, "rwb5" : button, "xuu6" : button, "sgub" : button, "awpz" : button, "rrdz" : button, "mdna" : button, "wa03" : button, "ut13" : button, "zo51" : button, "ef57" : button, "uj34" : button, "su33" : button}
+BUTTON_DICT = {"button" : button}
 #start sequence
 mainassembly = Area(["main room", "main assembly", "start"], "This is the main assembly room. You need to get you ID Passes before you can do anything. They are on the table at the far end of the hall.", [], mapPath="savedshapes/capemap.json")
 spacesuits = Area(["spacesuit", "suit"], "This is the spacesuit room. People are gathered to help you put on your space suit.",  [], mapPath="savedshapes/capemap.json")
@@ -96,22 +96,21 @@ print("SELENE " + str(VERSION))
 start_menu(game)
 
 #basic starting senario
-if game.currentArea == capsule:
-    game.inventory.extend(["spacesuit", "toolbox", "id"])
-    print("you are just about to your moon burn calculations that will put you in the moons orbit!")
-    game.add_radio_notification("you see the \"incomming message\" light fire on your dashboard", "HOUSTON: we've detected a leak in one of the oxygen tubes out by the dock. please go out and fix it before you get ready for launch!")
-    while not Game.gameOver:
-        game.player_input()
-        if Game.incorrectButtonPresses >= 2:
-            print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
-            print("game over...")
-            Game.gameOver = True
-else:
-    print(mainassembly.description)
-    while not Game.gameOver: #bodges on top of bodges until the whole thing is made out of duck tape and hope. fuck the haters.
-        if game.gameState == "landed" and landingSite not in capsule.gates:
-            capsule.gates.append(landingSite)
-        game.player_input()
+# if game.currentArea == capsule:
+#     game.inventory.extend(["spacesuit", "toolbox", "id"])
+#     print("you are just about to your moon burn calculations that will put you in the moons orbit!")
+#     game.add_radio_notification("you see the \"incomming message\" light fire on your dashboard", "HOUSTON: we've detected a leak in one of the oxygen tubes out by the dock. please go out and fix it before you get ready for launch!")
+#     while not Game.gameOver:
+#         game.player_input()
+#         if Game.incorrectButtonPresses >= 2:
+#             print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
+#             print("game over...")
+#             Game.gameOver = True
+routines.actions.info(game)
+while not Game.gameOver: #bodges on top of bodges until the whole thing is made out of duck tape and hope. fuck the haters.
+    if game.gameState == "landed" and landingSite not in capsule.gates:
+        capsule.gates.append(landingSite)
+    game.player_input()
 
-    if game.gameState == "victory":
-        print("THANKS FOR PLAYING SELENE")
+if game.gameState == "victory":
+    print("THANKS FOR PLAYING SELENE")

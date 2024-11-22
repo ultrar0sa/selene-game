@@ -10,9 +10,11 @@ class Maps:
 
     def __init__(self):
         tk = Tk()
+        tk.title("Map Window")
         self.artistCanvas = Canvas(tk, width=648, height=768)
         tk.protocol("WM_DELETE_WINDOW", lambda : print("", end="")) 
         self.artistCanvas.pack()
+    
         self.artist = RawTurtle(self.artistCanvas) #above is to handle user manually closing map window because program crashes if map is written again if window isn't present
         self.artist.fillcolor("white")
         self.artist.speed(0)
