@@ -12,7 +12,7 @@ class Game:
     oxygenTubeFixed = False
     radioNotifPresentButNotAnswered = False
     moveDisabledText = ""
-    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "press" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look, "save" : routines.actions.save, "load" : routines.actions.load, "exit" : routines.actions.exit}
+    VALID_PLAYER_ACTIONS = {"push" : routines.actions.push, "press" : routines.actions.push, "pull" : routines.actions.pull, "radio" : routines.actions.radio, "fix" : routines.actions.fix, "move" : routines.actions.move, "launch" : routines.actions.launch, "map"  : routines.actions.map, "take" : routines.actions.take, "get" : routines.actions.take, "drive" : routines.actions.take, "info" : routines.actions.info, "wait" : routines.actions.wait, "look" : routines.actions.look, "save" : routines.actions.save, "load" : routines.actions.load, "exit" : routines.actions.exit, "inventory": routines.actions.inventory}
     VALID_TARGET_OBJECTS = {}
     VALID_ACCESSORY_OBJECTS = {"hammer" : routines.accessories.hammer, "fist" : routines.accessories.fist, "toolbox" : routines.accessories.toolbox, "tools" : routines.accessories.toolbox, " id" : routines.accessories.id, "suit" : routines.accessories.spacesuit, "rover" : routines.accessories.rover}
     MAP_DICT = {}

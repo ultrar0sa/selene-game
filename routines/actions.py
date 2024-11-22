@@ -1,17 +1,23 @@
 import json
 
 def pull(game):
-    print("pull")
+    pass
 
 def push(game):
-    print("push")
+    pass
     
 def take(game):
-    print("taking")
+    pass
 
 def look(game):
-    print("looking") #i fucked up
+    pass #i fucked up
 
+def inventory(game):
+    from game import Game
+    print("inventory: ")
+    for item in game.inventory:
+        print(item)
+        
 def radio(game):
     from game import Game
     if game.radioContent != "":
