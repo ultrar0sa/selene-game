@@ -5,26 +5,28 @@ import routines.actions
 import routines.targets
 from game import Game
 from area import Area
-VERSION = "Early Beta"
+VERSION = "1.0"
 
 
 #basic start menu
 def start_menu(game):
-    print("1.about\n2.instructions\n3.play game\n4.load game")
+    print("1.about\n2.instructions\n3.play game\n4.load game\n5.exit")
     match input("input: "):
         case "1":
             print("SELENE is a moon mission over text. \nIt is created by Vicky Yang, Jade Lukken, and David Foster for CS 1612 at the University of Minnesota Duluth")
             start_menu(game)
         case "2":
-            print("When prompted, type commands into the console and press ENTER. \nThese commands include:\nmove {location name}\npush {button name}\nand fix {object}")
-            print("The \"map\" command draws a map in the turtle window. NOTE: Map window cannot be closed by player using window close button. \nTo exit the game, player must hit ctrl-c and then enter.")
-            print("Try and experiment with potential commands to see if they work in potential situtations!")
-            print("Paper and pencil is recommended to have on hand.")
+            print("When prompted, type commands into the console and press ENTER.")
+            print("here's a list of all of the commands and roughly what they do:\npush (used to push buttons)\npress (used to push buttons)\npull (used to pull things)\nradio (used to respond to base (make sure to use it whenever you radio light goes off))\nfix (used to fix things, most commonly with tools)\nmove (used to move to different locations)\nlaunch (launches various phases of the mission (liftoff, burn for the moon))\nmap (prints of the area in the map window, if you are confused on where to go, try this!)\ntake (used to add things to your inventory)\ninventory (used to view your inventory)\nget (used to add things to your inventory)\ndrive (used to get and then move the rover on the moon)\ninfo (gives you info on the current area)\nwait (used to wait for a period of time. if nothing is happening in the capsule, try waiting!)\nlook (look at various things in your inventory)\nsave (used to save the game)\nload (used to load the game)\nexit (used to exit the game)")
+            print("further instructions can be found at https://github.com/ultrar0sa/selene-game")
             start_menu(game)
         case "3":
             return
         case "4":
             routines.actions.load(game)
+            return
+        case "5":
+            Game.gameOver = True
             return
         case _:
             print("input a correct input")

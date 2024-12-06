@@ -126,14 +126,14 @@ def save(game):
                 "radioContent" : game.radioContent}
     
 
-    with open("save.json", mode="w") as file:
+    with open("routines/save.json", mode="w") as file:
         file.write(json.dumps(gameDict, indent=4))
         file.close()
     
 def load(game):
     from game import Game
     from area import Area
-    with open("save.json", mode="r") as file:
+    with open("routines/save.json", mode="r") as file:
         gameDict = json.load(file)
         game.gameState = gameDict["gameState"]
         for area in Game.AREA_LIST:
