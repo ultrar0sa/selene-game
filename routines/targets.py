@@ -35,25 +35,30 @@ def handle_button(*args, row, column, game, root):
             secondCorrectPress = "3D"
             match Game.correctButtonPresses:
                 case 0:
-                    if game.playerTargetObject == firstCorrectPress:
+                    if buttonText == firstCorrectPress:
                         print("you pressed the first button correctly")
                         Game.correctButtonPresses += 1
+                        root.quit()
                         root.destroy()
                     else:
                         print("oops")
+                        root.quit()
                         Game.incorrectButtonPresses += 1
                         root.destroy()
                 case 1:
-                    if game.playerTargetObject == secondCorrectPress:
+                    if buttonText == secondCorrectPress:
                         game.add_radio_notification(radioContent="bad news, we've detected a leak out in one of the oxygen tubes out by the dock. please go fix it.")
                         Game.correctButtonPresses += 1
+                        root.quit()
                         root.destroy()
                     else:
                         print("oops")
                         Game.incorrectButtonPresses += 1
+                        root.quit()
                         root.destroy()
                 case _:
                     #game.add_radio_notification(radioContent="bad news, we've detected a leak out in one of the oxygen tubes out by the dock. please go fix it.")
+                    root.quit()
                     root.destroy()
             if Game.incorrectButtonPresses >= 2:
                 print("your engines suddenly misfire and blow up your capsule. it's a sad day for spaceflight. :(")
