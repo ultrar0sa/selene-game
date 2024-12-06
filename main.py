@@ -59,7 +59,7 @@ dockingPort = Area(["docking port", "dock"], "you are next to the [docking port]
 outsideCapsuleDoor = Area(["outside capsule door", "outside", "spacewalk", "space", "capsule door"], "you are out in space next to the [capsule door]. the broken oxygen tube is right next to the [docking port]", [], mapPath="savedshapes/capsulemap.json")
  
 #moon crater
-landingSite = Area(["site"], "this where you landed. your [rover] has detached from your capsule and is ready to [ride]", [], mapPath="savedshapes/cratermap.json")
+landingSite = Area(["outside","site"], "this where you landed. your [rover] has detached from your capsule and is ready to [ride]", [], mapPath="savedshapes/cratermap.json")
 craterEdge = Area(["edge"], "this is the edge of the crater you landed in. your end goal is in sight, but is still across a vast and unknown plain.", [], mapPath="savedshapes/cratermap.json")
 moonPlain = Area(["plain"], "you are in the land of unknowns now. tranquility awaits. [apollo] awaits", [], mapPath="savedshapes/moonmap.json")
 apolloEnding = Area(["apollo", "tranqulity"], "one small step", [], mapPath="savedshapes/apollo.json")
@@ -111,8 +111,11 @@ start_menu(game)
 routines.actions.info(game)
 while not Game.gameOver: #bodges on top of bodges until the whole thing is made out of duck tape and hope. fuck the haters.
     if game.gameState == "landed" and landingSite not in capsule.gates:
+        capsule.gates.remove(outsideCapsuleDoor)
         capsule.gates.append(landingSite)
     game.player_input()
 
 if game.gameState == "victory":
     print("THANKS FOR PLAYING SELENE")
+
+input("press enter to leave: ")
